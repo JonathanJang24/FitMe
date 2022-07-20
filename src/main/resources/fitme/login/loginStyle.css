@@ -1,0 +1,11 @@
+.text-field{
+    -fx-background-color: white
+}
+
+#loginButton{
+-fx-background-color: red
+}
+
+#signUpButton{
+    -fx-background-color: yellow
+}

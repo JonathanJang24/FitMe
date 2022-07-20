@@ -14,6 +14,7 @@ public class loginApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("loginApp.fxml"));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("loginStyle.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("FitMe Login");
         stage.setResizable(false);
