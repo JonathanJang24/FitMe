@@ -5,4 +5,6 @@ module fitme.login {
 
     opens fitme.login to javafx.fxml;
     exports fitme.login;
+    opens fitme.signup to javafx.fxml;
+    exports fitme.signup;
 }
