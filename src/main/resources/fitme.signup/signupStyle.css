@@ -1,0 +1,6 @@
+.root{
+    -fx-background-color: linear-gradient(to right, #439775, #CEF7A0);
+}
+.label{
+    -fx-text-fill: white
+}

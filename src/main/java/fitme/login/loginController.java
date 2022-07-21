@@ -41,19 +41,20 @@ public class loginController {
 
     @FXML
     public void signup(ActionEvent event){
-        Parent root;
+        Parent signupRoot;
         try{
             System.out.println("signup");
+            Stage signupStage = new Stage();
+            FXMLLoader signupLoader = new FXMLLoader();
+            signupRoot = signupLoader.load(getClass().getResource("/fitme.signup/signupApp.fxml").openStream());
+            Scene signupScene = new Scene(signupRoot);
+            signupScene.getStylesheets().add(getClass().getResource("/fitme.signup/signupStyle.css").toExternalForm());
+            SignupController signupController = signupLoader.getController();
 
-            FXMLLoader suLoader = new FXMLLoader();
-            root = suLoader.load(getClass().getResource("/fitme.signup/signupApp.fxml").openStream());
-            SignupController suc = suLoader.getController();
-            System.out.println(suc);
-            Stage stage = new Stage();
-            stage.setTitle("Sign Up");
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.show();
+            signupStage.setTitle("Sign Up");
+            signupStage.setScene(signupScene);
+            signupStage.setResizable(false);
+            signupStage.show();
 
         }
         catch(Exception localException){
