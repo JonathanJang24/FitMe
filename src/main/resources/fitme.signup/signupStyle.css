@@ -4,3 +4,7 @@
 .label{
     -fx-text-fill: white
 }
+#signupStatus{
+    -fx-text-fill: red;
+    -fx-alignment: center
+}

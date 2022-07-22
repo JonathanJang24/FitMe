@@ -4,7 +4,6 @@
 .label{
     -fx-text-fill: white
 }
-
 .text-field{
     -fx-background-color: white
 }
@@ -12,7 +11,10 @@
 #loginButton{
 -fx-background-color: red
 }
-
+#loginStatus{
+    -fx-text-fill: red;
+    -fx-alignment: center
+}
 #signUpButton{
     -fx-background-color: yellow
 }
