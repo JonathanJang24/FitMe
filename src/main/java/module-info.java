@@ -7,4 +7,6 @@ module fitme.login {
     exports fitme.login;
     opens fitme.signup to javafx.fxml;
     exports fitme.signup;
+    opens fitme.client to javafx.fxml;
+    exports fitme.client;
 }
