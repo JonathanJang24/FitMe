@@ -42,16 +42,22 @@ public class loginController implements Initializable {
                 Stage stage = (Stage)this.loginButton.getScene().getWindow();
                 stage.close();
                 Stage clientStage = new Stage();
-                FXMLLoader clientLoader = new FXMLLoader();
-                clientRoot = clientLoader.load(getClass().getResource("/fitme.client/clientApp.fxml"));
+                FXMLLoader clientLoader = new FXMLLoader(getClass().getResource("/fitme.client/clientApp.fxml"));
+                clientRoot = (Parent)clientLoader.load();
+
+                ClientController clientController = clientLoader.getController();
+                clientController.initUser(this.usernameField.getText());
+
                 Scene clientScene = new Scene(clientRoot);
                 clientScene.getStylesheets().add(getClass().getResource("/fitme.client/clientStyle.css").toExternalForm());
-                ClientController clientController = clientLoader.getController();
-
+                clientStage.setUserData(this.usernameField.getText());
                 clientStage.setTitle("FitMe");
                 clientStage.setScene(clientScene);
                 clientStage.setResizable(false);
+
                 clientStage.show();
+
+
             }
             else{
                 loginStatus.setText("Incorrect Login");
