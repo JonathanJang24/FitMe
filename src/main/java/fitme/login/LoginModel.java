@@ -26,19 +26,29 @@ public class LoginModel {
     }
 
     public boolean isLoggedIn(String user, String pswd) throws Exception{
-        PreparedStatement pr = null;
-        ResultSet rs = null;
+        PreparedStatement checkPr = null;
+        ResultSet checkRs = null;
 
+        PreparedStatement loggedPr = null;
+        String test = String.valueOf(java.time.LocalDate.now());
+        System.out.println(test);
         String sql = "SELECT * FROM login WHERE username = ? AND password = ?";
-
+        String sqlLastLoggedin = "UPDATE login SET last_login_date = \""+ test + "\" WHERE username = ?";
 
         try{
-            pr = this.connection.prepareStatement(sql);
-            pr.setString(1,user);
-            pr.setString(2, pswd);
+            checkPr = this.connection.prepareStatement(sql);
+            checkPr.setString(1,user);
+            checkPr.setString(2, pswd);
 
-            rs = pr.executeQuery();
-            return rs.next();
+            checkRs = checkPr.executeQuery();
+            if(checkRs.next()){
+                loggedPr = this.connection.prepareStatement(sqlLastLoggedin);
+                loggedPr.setString(1, user);
+                loggedPr.execute();
+                loggedPr.close();
+                return true;
+            }
+            return false;
 
         }
         catch (Exception ex){
@@ -46,8 +56,8 @@ public class LoginModel {
             return false;
         }
         finally{
-            pr.close();
-            rs.close();
+            checkPr.close();
+            checkRs.close();
         }
     }
 

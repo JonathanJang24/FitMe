@@ -9,7 +9,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +42,7 @@ public class SignupController implements Initializable {
     public void createAccount(ActionEvent event){
 
 
-            String sqlInsert = "INSERT INTO login (username, password, firstname, lastname, birth_day, birth_month, birth_year)VALUES (?, ?, ?, ?, ?,?,?)";
+            String sqlInsert = "INSERT INTO login (username, password, firstname, lastname, birth_day, birth_month, birth_year, create_date,last_login_date)VALUES (?, ?, ?, ?, ?,?,?,?,?)";
             String sqlCheck = "SELECT * FROM login WHERE username = ?";
             try{
                 Connection conn = loginDbConnection.getConnection();
@@ -66,12 +65,15 @@ public class SignupController implements Initializable {
                     stat.setString(5, String.valueOf(this.signupBirthdatePicker.getValue().getDayOfMonth()));
                     stat.setString(6, String.valueOf(this.signupBirthdatePicker.getValue().getMonthValue()));
                     stat.setString(7, String.valueOf(this.signupBirthdatePicker.getValue().getYear()));
+                    stat.setString(8, String.valueOf(java.time.LocalDate.now()));
+                    stat.setString(9, String.valueOf(java.time.LocalDate.now()));
 
                     stat.execute();
                     conn.close();
 
                     Stage stage = (Stage)this.createAccountButton.getScene().getWindow();
                     stage.close();
+                    stat.close();
                 }
             }
             catch(SQLException ex){
