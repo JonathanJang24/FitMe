@@ -19,14 +19,20 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="greetingText" layoutX="24.0" layoutY="27.0" prefHeight="47.0" prefWidth="547.0" text="Hello ">
+                        <Label fx:id="greetingText" layoutX="-1.0" layoutY="14.0" prefHeight="47.0" prefWidth="600.0" text="Hey ">
                            <font>
                               <Font size="38.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lastLoggedInText" layoutX="24.0" layoutY="87.0" prefHeight="31.0" prefWidth="368.0" text="Last Logged in:">
+                        <Label fx:id="lastLoggedInText" layoutX="-1.0" layoutY="68.0" prefHeight="31.0" prefWidth="600.0" text="Last Logged in:">
                            <font>
-                              <Font size="26.0" />
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="logoutButton" layoutX="271.0" layoutY="329.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                        <Label fx:id="userNameLabel" layoutX="-1.0" layoutY="122.0" prefHeight="17.0" prefWidth="600.0" text="Name">
+                           <font>
+                              <Font size="20.0" />
                            </font>
                         </Label>
                      </children>
@@ -74,10 +80,13 @@
                                  </font>
                               </Label>
                               <Label text="Food" />
-                              <Label text="Idk wut menu selector for existing fooods" />
+                              <TextField fx:id="recordFoodField" />
                               <Label text="Date consumed" />
-                              <DatePicker />
-                              <Button mnemonicParsing="false" onAction="#addFoodRecord" text="Add Record" />
+                              <DatePicker fx:id="recordDatePicker" />
+                              <Button mnemonicParsing="false" onAction="#addFoodRecord" text="Add Record">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Button>
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -93,7 +102,69 @@
             </Tab>
             <Tab text="About Me">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="23.0" layoutY="22.0" text="Account Info">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="23.0" layoutY="64.0" prefHeight="200.0" prefWidth="330.0">
+                           <children>
+                              <Label text="Username:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Password:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label text="First name:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Last name:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Birthdate:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Joined-date:">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>

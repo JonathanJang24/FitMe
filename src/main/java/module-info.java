@@ -10,3 +10,4 @@ module fitme.login {
     opens fitme.client to javafx.fxml;
     exports fitme.client;
 }
+

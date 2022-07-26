@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class loginController implements Initializable {
+public class LoginController implements Initializable {
 
     LoginModel loginModel = new LoginModel();
 
@@ -31,7 +31,7 @@ public class loginController implements Initializable {
     private Label loginStatus;
 
     public void initialize(URL url, ResourceBundle rb){
-        System.out.println("initalized");
+        System.out.println("initialized");
     }
 
     @FXML
@@ -41,6 +41,7 @@ public class loginController implements Initializable {
             if(this.loginModel.isLoggedIn(this.usernameField.getText(),this.passwordField.getText())){
                 Stage stage = (Stage)this.loginButton.getScene().getWindow();
                 stage.close();
+
                 Stage clientStage = new Stage();
                 FXMLLoader clientLoader = new FXMLLoader(getClass().getResource("/fitme.client/clientApp.fxml"));
                 clientRoot = (Parent)clientLoader.load();

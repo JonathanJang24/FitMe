@@ -1,0 +1,12 @@
+
+.root{
+    -fx-background-color: linear-gradient(to right,#D34E24,#F28123)
+}
+.label{
+    -fx-text-fill: white;
+}
+#greetingText,
+#lastLoggedInText,
+#userNameLabel{
+    -fx-alignment: center
+}

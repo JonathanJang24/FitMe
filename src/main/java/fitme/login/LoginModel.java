@@ -30,10 +30,9 @@ public class LoginModel {
         ResultSet checkRs = null;
 
         PreparedStatement loggedPr = null;
-        String test = String.valueOf(java.time.LocalDate.now());
-        System.out.println(test);
+        String dateNow = String.valueOf(java.time.LocalDate.now());
         String sql = "SELECT * FROM login WHERE username = ? AND password = ?";
-        String sqlLastLoggedin = "UPDATE login SET last_login_date = \""+ test + "\" WHERE username = ?";
+        String sqlLastLoggedin = "UPDATE login SET last_login_date = \""+ dateNow + "\" WHERE username = ?";
 
         try{
             checkPr = this.connection.prepareStatement(sql);
