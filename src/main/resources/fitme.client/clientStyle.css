@@ -10,3 +10,7 @@
 #userNameLabel{
     -fx-alignment: center
 }
+
+#macroErrorLabel{
+    -fx-text-fill:white;
+}

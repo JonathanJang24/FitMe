@@ -31,7 +31,6 @@ public class LoginController implements Initializable {
     private Label loginStatus;
 
     public void initialize(URL url, ResourceBundle rb){
-        System.out.println("initialized");
     }
 
     @FXML
@@ -58,7 +57,7 @@ public class LoginController implements Initializable {
 
                 clientStage.show();
 
-
+                loginModel.endConn();
             }
             else{
                 loginStatus.setText("Incorrect Login");

@@ -1,12 +1,11 @@
 package fitme.dbUtil;
 
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class excerciseDbConnection {
+public class dbConnection {
 
-    private static final String CONN = "jdbc:sqlite:/Users/jonathanjang/Documents/Code/FitMe/src/main/resources/userExcercise.db";
+    private static final String CONN = "jdbc:sqlite:/Users/jonathanjang/Documents/Code/FitMe/src/main/resources/users.db";
 
     public static java.sql.Connection getConnection() throws SQLException{
         try{

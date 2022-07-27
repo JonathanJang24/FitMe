@@ -1,6 +1,6 @@
 package fitme.login;
 
-import fitme.dbUtil.loginDbConnection;
+import fitme.dbUtil.dbConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ public class LoginModel {
 
     public LoginModel(){
         try{
-            this.connection = loginDbConnection.getConnection();
+            this.connection = dbConnection.getConnection();
         }
         catch(SQLException ex){
             ex.printStackTrace();
@@ -23,6 +23,10 @@ public class LoginModel {
 
     public boolean isDataBaseConnected(){
         return this.connection!=null;
+    }
+
+    public void endConn() throws SQLException {
+        this.connection.close();
     }
 
     public boolean isLoggedIn(String user, String pswd) throws Exception{
