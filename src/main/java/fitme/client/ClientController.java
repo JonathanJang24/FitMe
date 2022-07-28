@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
@@ -46,18 +48,17 @@ public class ClientController implements Initializable {
     @FXML
     private Label recordFoodErrorLabel;
     @FXML
+    private Label accountInfoJoinedDateLabel;
+    @FXML
     private Label accountInfoUsernameLabel;
     @FXML
-    private Label accountInfoPasswordLabel;
+    private TextField updatePasswordField;
     @FXML
-    private Label accountInfoFirstNameLabel;
+    private TextField updateFirstNameField;
     @FXML
-    private Label accountInfoLastNameLabel;
+    private TextField updateLastNameField;
     @FXML
-    private Label accountInfoBirthdateLabel;
-    @FXML
-    private Label accountInfoJoinedDateLabel;
-
+    private DatePicker updateBirthdateField;
 
     public void initialize(URL url, ResourceBundle rb){}
 
@@ -100,12 +101,12 @@ public class ClientController implements Initializable {
             String userBirthDate = rs.getString("birth_date");
             String userCreateDate = rs.getString("create_date");
 
-            accountInfoUsernameLabel.setText("Username: "+this.currUser);
-            accountInfoPasswordLabel.setText("Password: "+userPassword);
-            accountInfoFirstNameLabel.setText("First name: "+userFirstName);
-            accountInfoLastNameLabel.setText("Last name: "+userLastName);
-            accountInfoBirthdateLabel.setText("Birthdate: "+userBirthDate);
-            accountInfoJoinedDateLabel.setText("Joined date: "+userCreateDate);
+            accountInfoJoinedDateLabel.setText(userCreateDate);
+            accountInfoUsernameLabel.setText(this.currUser);
+            updatePasswordField.setText(userPassword);
+            updateFirstNameField.setText(userFirstName);
+            updateLastNameField.setText(userLastName);
+            updateBirthdateField.setValue(LocalDate.parse(userBirthDate));
 
             ps.close();
             rs.close();
@@ -216,6 +217,23 @@ public class ClientController implements Initializable {
         catch(SQLException ex){
             ex.printStackTrace();
         }
-
     }
+
+
+    @FXML
+    public void updateUserInfo(){
+
+//        finish update user logic and db update
+        String sqlUpdate = "UPDATE login WHERE username=?";
+
+        try{
+            Connection conn = dbConnection.getConnection();
+
+            conn.close();
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+
 }

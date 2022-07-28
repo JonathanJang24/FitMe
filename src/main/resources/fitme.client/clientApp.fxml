@@ -13,32 +13,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fitme.client.ClientController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fitme.client.ClientController">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Home">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane maxHeight="500.0" maxWidth="700.0" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="700.0">
                      <children>
-                        <Label fx:id="greetingText" layoutX="-1.0" layoutY="8.0" prefHeight="19.0" prefWidth="600.0" text="Hey ">
+                        <Label fx:id="greetingText" layoutX="4.0" layoutY="22.0" prefHeight="19.0" prefWidth="600.0" text="Hey ">
                            <font>
-                              <Font size="28.0" />
+                              <Font size="35.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lastLoggedInText" layoutX="-1.0" layoutY="42.0" prefHeight="21.0" prefWidth="600.0" text="Last Logged in:">
+                        <Label fx:id="lastLoggedInText" layoutX="-4.0" layoutY="80.0" prefHeight="21.0" prefWidth="600.0" text="Last Logged in:">
                            <font>
-                              <Font size="18.0" />
+                              <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="logoutButton" layoutX="271.0" layoutY="329.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-                        <DatePicker layoutX="35.0" layoutY="316.0" />
-                        <TableView layoutX="35.0" layoutY="139.0" prefHeight="179.0" prefWidth="185.0">
-                          <columns>
-                            <TableColumn prefWidth="35.0" text="Food" />
-                            <TableColumn prefWidth="55.0" text="Calories" />
-                          </columns>
-                        </TableView>
+                        <Button fx:id="logoutButton" layoutX="324.0" layoutY="409.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
                      </children>
                   </AnchorPane>
             </content>
@@ -47,7 +40,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="321.0" prefWidth="161.0" AnchorPane.leftAnchor="0.0">
+                        <VBox layoutX="5.0" prefHeight="288.0" prefWidth="161.0" AnchorPane.leftAnchor="5.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="141.0" text="Macro Entry">
                                  <font>
@@ -55,21 +48,33 @@
                                  </font>
                               </Label>
                               <Label text="Per (1) serving" />
-                              <Label prefHeight="17.0" prefWidth="141.0" text="Name" />
-                              <TextField fx:id="macroEntryNameField" />
-                              <Label prefWidth="141.0" text="Calories" />
-                              <TextField fx:id="macroEntryCaloriesField" />
-                              <Label prefWidth="141.0" text="Protein" />
-                              <TextField fx:id="macroEntryProteinField" />
-                              <Label prefWidth="141.0" text="Fibers" />
-                              <TextField fx:id="macroEntryFiberField" />
-                              <Label fx:id="macroEntryCarbohydrates" prefWidth="141.0" text="Carbohydrates" />
-                              <TextField fx:id="macroEntryCarbohydratesField" />
-                              <Label prefWidth="141.0" text="Fats" />
-                              <TextField fx:id="macroEntryFatsField" />
+                              <TextField fx:id="macroEntryNameField" promptText="Name">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin></TextField>
+                              <TextField fx:id="macroEntryCaloriesField" promptText="Calories">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin></TextField>
+                              <TextField fx:id="macroEntryProteinField" promptText="Protein">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin></TextField>
+                              <TextField fx:id="macroEntryFiberField" promptText="Fibers">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin></TextField>
+                              <TextField fx:id="macroEntryCarbohydratesField" promptText="Carbohydrates">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin></TextField>
+                              <TextField fx:id="macroEntryFatsField" promptText="Fats">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin></TextField>
                               <Button fx:id="addFoodMacroButton" mnemonicParsing="false" onAction="#addFoodMacro" text="Add Food">
                                  <VBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
                               <Label fx:id="macroErrorLabel" prefHeight="17.0" prefWidth="151.0">
@@ -82,23 +87,45 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
-                        <VBox layoutX="161.0" prefHeight="89.0" prefWidth="178.0">
+                        <TableView layoutX="179.0" layoutY="10.0" prefHeight="351.0" prefWidth="505.0">
+                          <columns>
+                            <TableColumn prefWidth="70.866455078125" text="Food" />
+                            <TableColumn prefWidth="66.133544921875" text="Servings" />
+                              <TableColumn prefWidth="75.0" text="Calories" />
+                              <TableColumn prefWidth="75.0" text="Protein" />
+                              <TableColumn prefWidth="75.0" text="Fibers" />
+                              <TableColumn prefWidth="75.0" text="Carbs" />
+                              <TableColumn prefWidth="75.0" text="Fats" />
+                          </columns>
+                        </TableView>
+                        <DatePicker layoutX="339.0" layoutY="406.0" />
+                        <VBox layoutX="6.0" layoutY="288.0" prefHeight="182.0" prefWidth="162.0">
                            <children>
                               <Label text="Record Food">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Food" />
-                              <TextField fx:id="recordFoodField" />
-                              <Label text="Servings" />
-                              <TextField fx:id="recordServingsField" />
-                              <Label text="Date consumed" />
-                              <DatePicker fx:id="recordDatePicker" />
+                              <TextField fx:id="recordFoodField" promptText="Food Name">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="recordServingsField" promptText="Servings">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <DatePicker fx:id="recordDatePicker" promptText="Date Consumed">
+                                 <VBox.margin>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </VBox.margin>
+                              </DatePicker>
                               <Button mnemonicParsing="false" onAction="#addFoodRecord" text="Add Record">
                                  <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin></Button>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Button>
                               <Label fx:id="recordFoodErrorLabel" prefHeight="17.0" prefWidth="162.0">
                                  <VBox.margin>
                                     <Insets top="5.0" />
@@ -106,7 +133,7 @@
                               </Label>
                            </children>
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
                      </children></AnchorPane>
@@ -114,63 +141,114 @@
           </Tab>
             <Tab text="Workout">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="257.0" layoutY="15.0" prefHeight="278.0" prefWidth="416.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <VBox layoutX="17.0" layoutY="15.0" prefHeight="438.0" prefWidth="164.0">
+                           <children>
+                              <Label text="Workout Entry">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField promptText="Excercise">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField promptText="Time (minutes)">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField promptText="Calories">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField promptText="Sets">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField promptText="Reps">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField promptText="Weight">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" text="Add Workout">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                        <DatePicker layoutX="371.0" layoutY="338.0" />
+                     </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="About Me">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="23.0" layoutY="22.0" text="Account Info">
+                        <Label layoutX="286.0" layoutY="28.0" text="Account Info">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <VBox layoutX="23.0" layoutY="64.0" prefHeight="200.0" prefWidth="288.0">
+                        <VBox layoutX="199.0" layoutY="54.0" prefHeight="206.0" prefWidth="176.0">
                            <children>
-                              <Label fx:id="accountInfoUsernameLabel" text="Username:">
+                              <Label text="Username:">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="accountInfoPasswordLabel" text="Password:">
+                              <Label text="Password:">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="accountInfoFirstNameLabel" text="First name:">
+                              <Label text="First name:">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="accountInfoLastNameLabel" text="Last name:">
+                              <Label text="Last name:">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="accountInfoBirthdateLabel" text="Birthdate:">
+                              <Label text="Birthdate:">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="accountInfoJoinedDateLabel" text="Joined date:">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font size="15.0" />
@@ -181,6 +259,55 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
+                        <Button alignment="CENTER" layoutX="320.0" layoutY="352.0" mnemonicParsing="false" onAction="#updateUserInfo" prefHeight="26.0" prefWidth="60.0" text="Update" />
+                        <VBox layoutX="315.0" layoutY="60.0" prefHeight="200.0" prefWidth="212.0">
+                           <children>
+                              <Label fx:id="accountInfoUsernameLabel" text="Current User">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="updatePasswordField" promptText="Password">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="8.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="updateFirstNameField" promptText="First Name">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="8.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <TextField fx:id="updateLastNameField" promptText="Last Name">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="8.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <DatePicker fx:id="updateBirthdateField" prefHeight="26.0" prefWidth="201.0" promptText="Birthdate">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="8.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <Label fx:id="accountInfoJoinedDateLabel" text="User joined date">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <Label layoutX="208.0" layoutY="270.0" text="Joined date:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>
