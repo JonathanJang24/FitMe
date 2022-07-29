@@ -1,10 +1,13 @@
 package fitme.client;
 
 import fitme.dbUtil.dbConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -13,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
@@ -59,8 +61,74 @@ public class ClientController implements Initializable {
     private TextField updateLastNameField;
     @FXML
     private DatePicker updateBirthdateField;
+    @FXML
+    private TableView<FoodData> foodTable;
+    @FXML
+    private TableColumn<FoodData, String> foodColumn;
+    @FXML
+    private TableColumn<FoodData, String> servingsColumn;
+    @FXML
+    private TableColumn<FoodData, String> caloriesColumn;
+    @FXML
+    private TableColumn<FoodData, String> proteinColumn;
+    @FXML
+    private TableColumn<FoodData, String> fibersColumn;
+    @FXML
+    private TableColumn<FoodData, String> carbsColumn;
+    @FXML
+    private TableColumn<FoodData, String> fatsColumn;
+    @FXML
+    private DatePicker viewFoodDatepicker;
+
+    private ObservableList<FoodData> data;
+
 
     public void initialize(URL url, ResourceBundle rb){}
+
+    @FXML
+    private void loadFoodData(){
+        String sqlGetServ = "SELECT * FROM user_food_entry WHERE user_entered=? AND date_entered=?";
+        String sqlGetMacro = "SELECT * FROM food_macro WHERE name=?";
+
+        try{
+            Connection conn = dbConnection.getConnection();
+            this.data = FXCollections.observableArrayList();
+
+            PreparedStatement userPs = null;
+            userPs = conn.prepareStatement(sqlGetServ);
+            userPs.setString(1,this.currUser);
+            userPs.setString(2,String.valueOf(this.viewFoodDatepicker.getValue()));
+            ResultSet userRs = userPs.executeQuery();
+
+            PreparedStatement macroPs = null;
+            ResultSet macroRs = null;
+            macroPs = conn.prepareStatement(sqlGetMacro);
+
+            while(userRs.next()){
+
+                macroPs.setString(1,userRs.getString(2));
+                macroRs = macroPs.executeQuery();
+
+                this.data.add(new FoodData(macroRs.getString(2),userRs.getString(3),macroRs.getString(3),macroRs.getString(4),macroRs.getString(5),macroRs.getString(6),macroRs.getString(7)));
+            }
+            conn.close();
+        }
+        catch(SQLException ex){
+            System.err.println(ex);
+        }
+
+        this.foodColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("name"));
+        this.servingsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("servings"));
+        this.caloriesColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("calories"));
+        this.proteinColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("protein"));
+        this.fibersColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("fibers"));
+        this.carbsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("carbohydrates"));
+        this.fatsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("fats"));
+
+        this.foodTable.setItems(null);
+        this.foodTable.setItems(this.data);
+
+    }
 
     public void initUser(String user){
         String sqlLastLoggedIn = "SELECT * FROM login WHERE username=?";
@@ -164,7 +232,7 @@ public class ClientController implements Initializable {
                     macroEntryFiberField.setText("");
                     macroEntryCarbohydratesField.setText("");
                     macroEntryFatsField.setText("");
-                    macroErrorLabel.setText("");
+                    macroErrorLabel.setText("Entered Successfully.");
                 }
                 ps.close();
                 rs.close();
@@ -204,7 +272,7 @@ public class ClientController implements Initializable {
                     recordFoodField.setText("");
                     recordServingsField.setText("");
                     recordDatePicker.setValue(null);
-                    recordFoodErrorLabel.setText("");
+                    recordFoodErrorLabel.setText("Entered Successfully.");
                 } else {
                     recordFoodErrorLabel.setText("Error: Food doesn't exist");
                 }
@@ -224,11 +292,19 @@ public class ClientController implements Initializable {
     public void updateUserInfo(){
 
 //        finish update user logic and db update
-        String sqlUpdate = "UPDATE login WHERE username=?";
+        String sqlUpdate = "UPDATE login SET password = ?, firstname=?, lastname=?,birth_date=? WHERE username=\""+this.currUser+"\"";
 
         try{
             Connection conn = dbConnection.getConnection();
+            PreparedStatement ps = null;
+            ps = conn.prepareStatement(sqlUpdate);
 
+            ps.setString(1,this.updatePasswordField.getText());
+            ps.setString(2,this.updateFirstNameField.getText());
+            ps.setString(3,this.updateLastNameField.getText());
+            ps.setString(4,String.valueOf(this.updateBirthdateField.getValue()));
+            ps.execute();
+            ps.close();
             conn.close();
         }
         catch(SQLException ex){
