@@ -8,3 +8,11 @@
     -fx-text-fill: red;
     -fx-alignment: center
 }
+
+#createAccountButton{
+    -fx-text-fill: white;
+    -fx-background-color: #4056F4
+}
+#createAccountButton:hover{
+    -fx-background-color: #0197F6
+}

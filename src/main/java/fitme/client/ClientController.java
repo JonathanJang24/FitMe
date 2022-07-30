@@ -79,6 +79,14 @@ public class ClientController implements Initializable {
     private TableColumn<FoodData, String> fatsColumn;
     @FXML
     private DatePicker viewFoodDatepicker;
+    @FXML
+    private Button updateUserButton;
+    @FXML
+    private Button addFoodRecordButton;
+    @FXML
+    private Label weeklyCalsAteLabel;
+    @FXML
+    private Label weeklyCalsBurnedLabel;
 
     private ObservableList<FoodData> data;
 
@@ -147,13 +155,19 @@ public class ClientController implements Initializable {
 
             loginConn.close();
             populateAboutMe();
+            populateHome();
         }
         catch(SQLException ex){
             ex.printStackTrace();
         }
     }
 
-    public void populateAboutMe(){
+    private void populateHome(){
+        this.weeklyCalsAteLabel.setText("Your total calories for this week: "+"temp_holder");
+        this.weeklyCalsBurnedLabel.setText("Your total calories burned for this week: "+"anotha one");
+    }
+
+    private void populateAboutMe(){
         String sqlGetUser = "SELECT * FROM login WHERE username=?";
         PreparedStatement ps = null;
         ResultSet rs = null;

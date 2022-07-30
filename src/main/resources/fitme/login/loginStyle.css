@@ -8,13 +8,15 @@
     -fx-background-color: white
 }
 
-#loginButton{
--fx-background-color: red
+#loginButton, #signUpButton{
+-fx-background-color: #4B7F52;
+-fx-text-fill: white
+}
+#loginButton:hover, #signUpButton:hover{
+-fx-background-color: #8CD867;
+
 }
 #loginStatus{
     -fx-text-fill: red;
     -fx-alignment: center
-}
-#signUpButton{
-    -fx-background-color: yellow
 }
