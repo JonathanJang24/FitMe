@@ -162,8 +162,12 @@
                      <children>
                         <TableView layoutX="257.0" layoutY="15.0" prefHeight="278.0" prefWidth="416.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn prefWidth="75.0" text="Excercise" />
+                            <TableColumn prefWidth="60.664398193359375" text="Time (m)" />
+                              <TableColumn prefWidth="89.33560180664062" text="Cals Burned" />
+                              <TableColumn prefWidth="60.79638671875" text="Sets" />
+                              <TableColumn prefWidth="63.42474365234375" text="Reps" />
+                              <TableColumn prefWidth="64.18145751953125" text="Weight" />
                           </columns>
                         </TableView>
                         <VBox layoutX="17.0" layoutY="15.0" prefHeight="438.0" prefWidth="164.0">
@@ -176,41 +180,51 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField promptText="Excercise">
+                              <TextField fx:id="workoutExcerciseField" promptText="Excercise">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField promptText="Time (minutes)">
+                              <TextField fx:id="workoutTimeField" promptText="Time (minutes)">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField promptText="Calories">
+                              <TextField fx:id="workoutCaloriesField" promptText="Calories burned">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField promptText="Sets">
+                              <TextField fx:id="workoutSetsField" promptText="Sets">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField promptText="Reps">
+                              <TextField fx:id="workoutRepsField" promptText="Reps">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField promptText="Weight">
+                              <TextField fx:id="workoutWeightField" promptText="Weight">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" text="Add Workout">
+                              <DatePicker fx:id="workoutDateField" promptText="Date Performed">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <Button fx:id="addWorkoutButton" mnemonicParsing="false" onAction="#addExcerciseRecord" text="Add Workout">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
+                              <Label fx:id="workoutErrorLabel" prefHeight="17.0" prefWidth="150.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

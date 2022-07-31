@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -87,6 +88,22 @@ public class ClientController implements Initializable {
     private Label weeklyCalsAteLabel;
     @FXML
     private Label weeklyCalsBurnedLabel;
+    @FXML
+    private TextField workoutExcerciseField;
+    @FXML
+    private TextField workoutTimeField;
+    @FXML
+    private TextField workoutCaloriesField;
+    @FXML
+    private TextField workoutSetsField;
+    @FXML
+    private TextField workoutRepsField;
+    @FXML
+    private TextField workoutWeightField;
+    @FXML
+    private DatePicker workoutDateField;
+    @FXML
+    private Label workoutErrorLabel;
 
     private ObservableList<FoodData> data;
 
@@ -269,12 +286,10 @@ public class ClientController implements Initializable {
             }
             else {
                 Connection conn = dbConnection.getConnection();
-                PreparedStatement ps = null;
-                ResultSet rs = null;
+                PreparedStatement ps = conn.prepareStatement(sqlCheck);
 
-                ps = conn.prepareStatement(sqlCheck);
                 ps.setString(1, recordFoodField.getText());
-                rs = ps.executeQuery();
+                ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     ps = conn.prepareStatement(sqlInsert);
                     ps.setString(1, recordFoodField.getText());
@@ -301,7 +316,39 @@ public class ClientController implements Initializable {
         }
     }
 
+    @FXML
+    public void addExcerciseRecord(ActionEvent event){
+        String sqlInsert = "INSERT INTO user_workout_entry(excercise, time, cals_burned, sets, reps, weight, date_performed, user_entered) VALUES(?,?,?,?,?,?,?,?)";
+        try{
+            Connection conn = dbConnection.getConnection();
 
+            PreparedStatement ps = conn.prepareStatement(sqlInsert);
+            ps.setString(1,workoutExcerciseField.getText());
+            ps.setString(2, workoutTimeField.getText());
+            ps.setString(3, workoutCaloriesField.getText());
+            ps.setString(4, workoutSetsField.getText());
+            ps.setString(5,workoutRepsField.getText());
+            ps.setString(6,workoutWeightField.getText());
+            ps.setString(7, String.valueOf(workoutDateField.getValue()));
+            ps.setString(8,this.currUser);
+
+            ps.execute();
+            conn.close();
+            ps.close();
+
+            workoutExcerciseField.setText("");
+            workoutTimeField.setText("");
+            workoutCaloriesField.setText("");
+            workoutSetsField.setText("");
+            workoutRepsField.setText("");
+            workoutWeightField.setText("");
+            workoutDateField.setValue(null);
+            workoutErrorLabel.setText("Workout Entry Added");
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
     @FXML
     public void updateUserInfo(){
 
