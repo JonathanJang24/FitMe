@@ -160,14 +160,14 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="257.0" layoutY="15.0" prefHeight="278.0" prefWidth="416.0">
+                        <TableView fx:id="workoutTable" layoutX="213.0" layoutY="15.0" prefHeight="310.0" prefWidth="460.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Excercise" />
-                            <TableColumn prefWidth="60.664398193359375" text="Time (m)" />
-                              <TableColumn prefWidth="89.33560180664062" text="Cals Burned" />
-                              <TableColumn prefWidth="60.79638671875" text="Sets" />
-                              <TableColumn prefWidth="63.42474365234375" text="Reps" />
-                              <TableColumn prefWidth="64.18145751953125" text="Weight" />
+                            <TableColumn fx:id="excerciseColumn" prefWidth="100.60127258300781" text="Excercise" />
+                            <TableColumn fx:id="timeColumn" prefWidth="71.39877319335938" text="Time (m)" />
+                              <TableColumn fx:id="calsBurnedColumn" prefWidth="84.358154296875" text="Cals Burned" />
+                              <TableColumn fx:id="setsColumn" prefWidth="64.10125732421875" text="Sets" />
+                              <TableColumn fx:id="repsColumn" prefWidth="67.898681640625" text="Reps" />
+                              <TableColumn fx:id="weightColumn" prefWidth="76.22283935546875" text="Weight" />
                           </columns>
                         </TableView>
                         <VBox layoutX="17.0" layoutY="15.0" prefHeight="438.0" prefWidth="164.0">
@@ -210,7 +210,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </TextField>
-                              <DatePicker fx:id="workoutDateField" promptText="Date Performed">
+                              <DatePicker fx:id="workoutDateField" prefHeight="27.0" prefWidth="154.0" promptText="Date Performed">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
@@ -230,7 +230,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
-                        <DatePicker layoutX="371.0" layoutY="338.0" />
+                        <DatePicker fx:id="viewExcerciseDatePicker" layoutX="350.0" layoutY="351.0" onAction="#loadExcerciseData" />
                      </children></AnchorPane>
               </content>
             </Tab>

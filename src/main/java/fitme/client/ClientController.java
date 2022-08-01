@@ -1,7 +1,9 @@
 package fitme.client;
 
 import fitme.dbUtil.dbConnection;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -18,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 public class ClientController implements Initializable {
 
@@ -81,10 +84,6 @@ public class ClientController implements Initializable {
     @FXML
     private DatePicker viewFoodDatepicker;
     @FXML
-    private Button updateUserButton;
-    @FXML
-    private Button addFoodRecordButton;
-    @FXML
     private Label weeklyCalsAteLabel;
     @FXML
     private Label weeklyCalsBurnedLabel;
@@ -104,56 +103,29 @@ public class ClientController implements Initializable {
     private DatePicker workoutDateField;
     @FXML
     private Label workoutErrorLabel;
+    @FXML
+    private DatePicker viewExcerciseDatePicker;
+    @FXML
+    private TableView<ExcerciseData> workoutTable;
+    @FXML
+    private TableColumn<ExcerciseData, String> excerciseColumn;
+    @FXML
+    private TableColumn<ExcerciseData, String> timeColumn;
+    @FXML
+    private TableColumn<ExcerciseData, String> calsBurnedColumn;
+    @FXML
+    private TableColumn<ExcerciseData, String> setsColumn;
+    @FXML
+    private TableColumn<ExcerciseData, String> repsColumn;
+    @FXML
+    private TableColumn<ExcerciseData, String> weightColumn;
 
-    private ObservableList<FoodData> data;
+    private ObservableList<FoodData> foodData;
+    private ObservableList<ExcerciseData> excerciseData;
 
 
     public void initialize(URL url, ResourceBundle rb){}
 
-    @FXML
-    private void loadFoodData(){
-        String sqlGetServ = "SELECT * FROM user_food_entry WHERE user_entered=? AND date_entered=?";
-        String sqlGetMacro = "SELECT * FROM food_macro WHERE name=?";
-
-        try{
-            Connection conn = dbConnection.getConnection();
-            this.data = FXCollections.observableArrayList();
-
-            PreparedStatement userPs = null;
-            userPs = conn.prepareStatement(sqlGetServ);
-            userPs.setString(1,this.currUser);
-            userPs.setString(2,String.valueOf(this.viewFoodDatepicker.getValue()));
-            ResultSet userRs = userPs.executeQuery();
-
-            PreparedStatement macroPs = null;
-            ResultSet macroRs = null;
-            macroPs = conn.prepareStatement(sqlGetMacro);
-
-            while(userRs.next()){
-
-                macroPs.setString(1,userRs.getString(2));
-                macroRs = macroPs.executeQuery();
-
-                this.data.add(new FoodData(macroRs.getString(2),userRs.getString(3),macroRs.getString(3),macroRs.getString(4),macroRs.getString(5),macroRs.getString(6),macroRs.getString(7)));
-            }
-            conn.close();
-        }
-        catch(SQLException ex){
-            System.err.println(ex);
-        }
-
-        this.foodColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("name"));
-        this.servingsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("servings"));
-        this.caloriesColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("calories"));
-        this.proteinColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("protein"));
-        this.fibersColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("fibers"));
-        this.carbsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("carbohydrates"));
-        this.fatsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("fats"));
-
-        this.foodTable.setItems(null);
-        this.foodTable.setItems(this.data);
-
-    }
 
     public void initUser(String user){
         String sqlLastLoggedIn = "SELECT * FROM login WHERE username=?";
@@ -173,6 +145,7 @@ public class ClientController implements Initializable {
             loginConn.close();
             populateAboutMe();
             populateHome();
+            numericalInput();
         }
         catch(SQLException ex){
             ex.printStackTrace();
@@ -224,6 +197,31 @@ public class ClientController implements Initializable {
             Stage currStage = (Stage)logoutButton.getScene().getWindow();
             currStage.close();
         }
+    }
+
+    private void numericalInput(){
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getText();
+
+            if (text.matches("[0-9]*")) {
+                return change;
+            }
+
+            return null;
+        };
+        TextFormatter<String> tf1, tf2,tf3,tf4,tf5,tf6,tf7,tf8,tf9,tf10,tf11;
+        tf1=new TextFormatter<>(filter);tf2=new TextFormatter<>(filter);tf3=new TextFormatter<>(filter);tf4=new TextFormatter<>(filter);tf5=new TextFormatter<>(filter);tf6=new TextFormatter<>(filter);tf7=new TextFormatter<>(filter);tf8=new TextFormatter<>(filter);tf9=new TextFormatter<>(filter);tf10=new TextFormatter<>(filter);tf11=new TextFormatter<>(filter);
+        macroEntryCaloriesField.setTextFormatter(tf1);
+        macroEntryProteinField.setTextFormatter(tf2);
+        macroEntryFiberField.setTextFormatter(tf3);
+        macroEntryCarbohydratesField.setTextFormatter(tf4);
+        macroEntryFatsField.setTextFormatter(tf5);
+        recordServingsField.setTextFormatter(tf6);
+        workoutTimeField.setTextFormatter(tf7);
+        workoutCaloriesField.setTextFormatter(tf8);
+        workoutSetsField.setTextFormatter(tf9);
+        workoutRepsField.setTextFormatter(tf10);
+        workoutWeightField.setTextFormatter(tf11);
     }
 
     @FXML
@@ -317,7 +315,52 @@ public class ClientController implements Initializable {
     }
 
     @FXML
+    private void loadFoodData(){
+        String sqlGetServ = "SELECT * FROM user_food_entry WHERE user_entered=? AND date_entered=?";
+        String sqlGetMacro = "SELECT * FROM food_macro WHERE name=?";
+
+        try{
+            Connection conn = dbConnection.getConnection();
+            this.foodData = FXCollections.observableArrayList();
+
+            PreparedStatement userPs = null;
+            userPs = conn.prepareStatement(sqlGetServ);
+            userPs.setString(1,this.currUser);
+            userPs.setString(2,String.valueOf(this.viewFoodDatepicker.getValue()));
+            ResultSet userRs = userPs.executeQuery();
+
+            PreparedStatement macroPs = null;
+            ResultSet macroRs = null;
+            macroPs = conn.prepareStatement(sqlGetMacro);
+
+            while(userRs.next()){
+
+                macroPs.setString(1,userRs.getString(2));
+                macroRs = macroPs.executeQuery();
+
+                this.foodData.add(new FoodData(macroRs.getString(2),userRs.getString(3),macroRs.getString(3),macroRs.getString(4),macroRs.getString(5),macroRs.getString(6),macroRs.getString(7)));
+            }
+            conn.close();
+        }
+        catch(SQLException ex){
+            System.err.println(ex);
+        }
+
+        this.foodColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("name"));
+        this.servingsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("servings"));
+        this.caloriesColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("calories"));
+        this.proteinColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("protein"));
+        this.fibersColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("fibers"));
+        this.carbsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("carbohydrates"));
+        this.fatsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("fats"));
+        this.foodTable.setItems(null);
+        this.foodTable.setItems(this.foodData);
+
+    }
+
+    @FXML
     public void addExcerciseRecord(ActionEvent event){
+
         String sqlInsert = "INSERT INTO user_workout_entry(excercise, time, cals_burned, sets, reps, weight, date_performed, user_entered) VALUES(?,?,?,?,?,?,?,?)";
         try{
             Connection conn = dbConnection.getConnection();
@@ -349,6 +392,41 @@ public class ClientController implements Initializable {
             ex.printStackTrace();
         }
     }
+
+    @FXML
+    public void loadExcerciseData(ActionEvent event){
+        String sqlGet = "SELECT * FROM user_workout_entry WHERE user_entered=? AND date_performed=?";
+
+        try{
+            Connection conn = dbConnection.getConnection();
+            this.excerciseData = FXCollections.observableArrayList();
+
+            PreparedStatement ps = null;
+            ps = conn.prepareStatement(sqlGet);
+            ps.setString(1,this.currUser);
+            ps.setString(2, String.valueOf(this.viewExcerciseDatePicker.getValue()));
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                this.excerciseData.add(new ExcerciseData(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
+            }
+            conn.close();
+        }
+        catch(SQLException ex){
+            System.err.println(ex);
+        }
+
+        this.excerciseColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("excercise"));
+        this.timeColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("time"));
+        this.calsBurnedColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("cals_burned"));
+        this.setsColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("sets"));
+        this.repsColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("reps"));
+        this.weightColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("weight"));
+        this.workoutTable.setItems(null);
+        this.workoutTable.setItems(this.excerciseData);
+    }
+
+
     @FXML
     public void updateUserInfo(){
 
