@@ -119,12 +119,49 @@ public class ClientController implements Initializable {
     private TableColumn<ExcerciseData, String> repsColumn;
     @FXML
     private TableColumn<ExcerciseData, String> weightColumn;
+    @FXML
+    private Button foodDelete;
+    @FXML
+    private Button workoutDelete;
+    @FXML
+    private TableColumn<FoodData, String> foodIdColumn;
+    @FXML
+    private TableColumn<ExcerciseData, String> workoutIdColumn;
+    @FXML
+    private Label workoutRemovalLabel;
+    @FXML
+    private Label foodRemovalLabel;
 
+
+    private String selectedFoodEntry = null;
+    private String selectedWorkoutEntry = null;
     private ObservableList<FoodData> foodData;
     private ObservableList<ExcerciseData> excerciseData;
 
 
-    public void initialize(URL url, ResourceBundle rb){}
+    public void initialize(URL url, ResourceBundle rb){
+        foodDelete.setDisable(true);
+        workoutDelete.setDisable(true);
+
+        foodTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            try{
+                foodDelete.setDisable(false);
+                selectedFoodEntry = newSelection.getEntry_id();
+            }
+            catch(Exception e){
+
+            }
+        });
+        workoutTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            try{
+                workoutDelete.setDisable(false);
+                selectedWorkoutEntry = newSelection.getId();
+            }
+            catch(Exception e){
+
+            }
+        });
+    }
 
 
     public void initUser(String user){
@@ -224,6 +261,7 @@ public class ClientController implements Initializable {
         workoutWeightField.setTextFormatter(tf11);
     }
 
+
     @FXML
     public void addFoodMacro(ActionEvent event){
 
@@ -312,10 +350,11 @@ public class ClientController implements Initializable {
         catch(SQLException ex){
             ex.printStackTrace();
         }
+        loadFoodData();
     }
 
     @FXML
-    private void loadFoodData(){
+    public void loadFoodData(){
         String sqlGetServ = "SELECT * FROM user_food_entry WHERE user_entered=? AND date_entered=?";
         String sqlGetMacro = "SELECT * FROM food_macro WHERE name=?";
 
@@ -338,7 +377,7 @@ public class ClientController implements Initializable {
                 macroPs.setString(1,userRs.getString(2));
                 macroRs = macroPs.executeQuery();
 
-                this.foodData.add(new FoodData(macroRs.getString(2),userRs.getString(3),macroRs.getString(3),macroRs.getString(4),macroRs.getString(5),macroRs.getString(6),macroRs.getString(7)));
+                this.foodData.add(new FoodData(userRs.getString(1),macroRs.getString(2),userRs.getString(3),macroRs.getString(3),macroRs.getString(4),macroRs.getString(5),macroRs.getString(6),macroRs.getString(7)));
             }
             conn.close();
         }
@@ -346,6 +385,7 @@ public class ClientController implements Initializable {
             System.err.println(ex);
         }
 
+        this.foodIdColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("entry_id"));
         this.foodColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("name"));
         this.servingsColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("servings"));
         this.caloriesColumn.setCellValueFactory(new PropertyValueFactory<FoodData, String>("calories"));
@@ -356,6 +396,24 @@ public class ClientController implements Initializable {
         this.foodTable.setItems(null);
         this.foodTable.setItems(this.foodData);
 
+    }
+
+    @FXML
+    public void remFoodEntry(ActionEvent event){
+        String sqlRem = "DELETE FROM user_food_entry WHERE entry_id=?";
+        try{
+            Connection conn = dbConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlRem);
+            ps.setString(1,this.selectedFoodEntry);
+            ps.execute();
+            ps.close();
+            conn.close();
+        }
+        catch(SQLException ex){
+            System.err.println(ex);
+        }
+        loadFoodData();
+        foodRemovalLabel.setText("Removed successfully.");
     }
 
     @FXML
@@ -391,10 +449,11 @@ public class ClientController implements Initializable {
         catch(SQLException ex){
             ex.printStackTrace();
         }
+        loadExcerciseData();
     }
 
     @FXML
-    public void loadExcerciseData(ActionEvent event){
+    public void loadExcerciseData(){
         String sqlGet = "SELECT * FROM user_workout_entry WHERE user_entered=? AND date_performed=?";
 
         try{
@@ -408,7 +467,7 @@ public class ClientController implements Initializable {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                this.excerciseData.add(new ExcerciseData(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
+                this.excerciseData.add(new ExcerciseData(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
             }
             conn.close();
         }
@@ -416,6 +475,7 @@ public class ClientController implements Initializable {
             System.err.println(ex);
         }
 
+        this.workoutIdColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("id"));
         this.excerciseColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("excercise"));
         this.timeColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("time"));
         this.calsBurnedColumn.setCellValueFactory(new PropertyValueFactory<ExcerciseData, String>("cals_burned"));
@@ -426,6 +486,23 @@ public class ClientController implements Initializable {
         this.workoutTable.setItems(this.excerciseData);
     }
 
+    @FXML
+    public void remExcerciseEntry(ActionEvent event){
+        String sqlRem = "DELETE FROM user_workout_entry WHERE id=?";
+        try{
+            Connection conn = dbConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlRem);
+            ps.setString(1,this.selectedWorkoutEntry);
+            ps.execute();
+            ps.close();
+            conn.close();
+        }
+        catch(SQLException ex){
+            System.err.println(ex);
+        }
+        loadExcerciseData();
+        workoutRemovalLabel.setText("Removed Successfully.");
+    }
 
     @FXML
     public void updateUserInfo(){

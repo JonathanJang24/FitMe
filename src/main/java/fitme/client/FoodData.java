@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 
 public class FoodData {
 
+    private final StringProperty entry_id;
     private final StringProperty name;
     private final StringProperty servings;
     private final StringProperty calories;
@@ -13,7 +14,8 @@ public class FoodData {
     private final StringProperty carbohydrates;
     private final StringProperty fats;
 
-    public FoodData(String name, String serv, String cals, String pro, String fib, String carbs, String fats){
+    public FoodData(String entry_id, String name, String serv, String cals, String pro, String fib, String carbs, String fats){
+        this.entry_id = new SimpleStringProperty(entry_id);
         this.name = new SimpleStringProperty(name);
         this.servings = new SimpleStringProperty(serv);
         this.calories = new SimpleStringProperty(cals);
@@ -21,6 +23,14 @@ public class FoodData {
         this.fibers = new SimpleStringProperty(fib);
         this.carbohydrates = new SimpleStringProperty(carbs);
         this.fats = new SimpleStringProperty(fats);
+    }
+
+    public String getEntry_id(){
+        return entry_id.get();
+    }
+
+    public void setEntry_id(String id){
+        this.entry_id.set(id);
     }
 
     public String getName() {

@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 
 public class ExcerciseData {
 
+    private final StringProperty id;
     private final StringProperty excercise;
     private final StringProperty time;
     private final StringProperty cals_burned;
@@ -12,13 +13,22 @@ public class ExcerciseData {
     private final StringProperty reps;
     private final StringProperty weight;
 
-    public ExcerciseData(String excercise, String time, String cals_burned, String sets, String reps, String weight){
+    public ExcerciseData(String id, String excercise, String time, String cals_burned, String sets, String reps, String weight){
+        this.id = new SimpleStringProperty(id);
         this.excercise = new SimpleStringProperty(excercise);
         this.time = new SimpleStringProperty(time);
         this.cals_burned = new SimpleStringProperty(cals_burned);
         this.sets = new SimpleStringProperty(sets);
         this.reps = new SimpleStringProperty(reps);
         this.weight = new SimpleStringProperty(weight);
+    }
+
+    public String getId(){
+        return id.get();
+    }
+
+    public void setId(String id){
+        this.id.set(id);
     }
 
     public String getExcercise() {
