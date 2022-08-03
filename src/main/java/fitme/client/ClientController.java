@@ -19,6 +19,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -131,6 +133,10 @@ public class ClientController implements Initializable {
     private Label workoutRemovalLabel;
     @FXML
     private Label foodRemovalLabel;
+    @FXML
+    private Label yearlyCalsAteLabel;
+    @FXML
+    private Label yearlyCalsBurnedLabel;
 
 
     private String selectedFoodEntry = null;
@@ -142,6 +148,7 @@ public class ClientController implements Initializable {
     public void initialize(URL url, ResourceBundle rb){
         foodDelete.setDisable(true);
         workoutDelete.setDisable(true);
+        this.workoutErrorLabel.setWrapText(true);
 
         foodTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             try{
@@ -190,8 +197,52 @@ public class ClientController implements Initializable {
     }
 
     private void populateHome(){
-        this.weeklyCalsAteLabel.setText("Your total calories for this week: "+"temp_holder");
-        this.weeklyCalsBurnedLabel.setText("Your total calories burned for this week: "+"anotha one");
+        Date dt = new Date();
+        int currYr = dt.getYear();
+
+        double yrCalsAte = 0;
+        int yrCalsBurned = 0;
+
+        String startYear = String.valueOf(currYr+1900)+"-01-01";
+        String endYear = String.valueOf(currYr+1900)+"-12-31";
+        String calsAteYrSql = "SELECT user_food_entry.food_name, user_food_entry.servings, user_food_entry.date_entered, user_food_entry.user_entered, food_macro.name, food_macro.calories FROM user_food_entry INNER JOIN food_macro ON user_food_entry.food_name=food_macro.name WHERE date_entered BETWEEN ? AND ? AND user_food_entry.user_entered=?";
+        String calsBurnedYrSql = "SELECT cals_burned, date_performed, user_entered FROM user_workout_entry WHERE date_performed BETWEEN ? AND ? AND user_entered=?";
+        try{
+
+            Connection conn = dbConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(calsAteYrSql);
+            ps.setString(1,startYear);
+            ps.setString(2,endYear);
+            ps.setString(3, this.currUser);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                double servings = Double.valueOf(rs.getString(2));
+                double calories = Double.valueOf(rs.getString(6));
+
+                yrCalsAte += servings*calories;
+            }
+
+            ps = conn.prepareStatement(calsBurnedYrSql);
+            ps.setString(1,startYear);
+            ps.setString(2, endYear);
+            ps.setString(3, this.currUser);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                yrCalsBurned += Integer.valueOf(rs.getString(1));
+            }
+            ps.close();
+            rs.close();
+            conn.close();
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
+        this.weeklyCalsAteLabel.setText("week ate");
+        this.weeklyCalsBurnedLabel.setText("week burn");
+        this.yearlyCalsAteLabel.setText(String.valueOf(yrCalsAte));
+        this.yearlyCalsBurnedLabel.setText(String.valueOf(yrCalsBurned));
     }
 
     private void populateAboutMe(){
@@ -421,30 +472,35 @@ public class ClientController implements Initializable {
 
         String sqlInsert = "INSERT INTO user_workout_entry(excercise, time, cals_burned, sets, reps, weight, date_performed, user_entered) VALUES(?,?,?,?,?,?,?,?)";
         try{
-            Connection conn = dbConnection.getConnection();
+            if(workoutExcerciseField.getText().equals("")||workoutCaloriesField.getText().equals("")||workoutDateField.getValue()==null){
+                workoutErrorLabel.setText("Error: Excercise, calories, and date cannot be null.");
+            }
+            else{
+                Connection conn = dbConnection.getConnection();
 
-            PreparedStatement ps = conn.prepareStatement(sqlInsert);
-            ps.setString(1,workoutExcerciseField.getText());
-            ps.setString(2, workoutTimeField.getText());
-            ps.setString(3, workoutCaloriesField.getText());
-            ps.setString(4, workoutSetsField.getText());
-            ps.setString(5,workoutRepsField.getText());
-            ps.setString(6,workoutWeightField.getText());
-            ps.setString(7, String.valueOf(workoutDateField.getValue()));
-            ps.setString(8,this.currUser);
+                PreparedStatement ps = conn.prepareStatement(sqlInsert);
+                ps.setString(1,workoutExcerciseField.getText());
+                ps.setString(2, workoutTimeField.getText());
+                ps.setString(3, workoutCaloriesField.getText());
+                ps.setString(4, workoutSetsField.getText());
+                ps.setString(5,workoutRepsField.getText());
+                ps.setString(6,workoutWeightField.getText());
+                ps.setString(7, String.valueOf(workoutDateField.getValue()));
+                ps.setString(8,this.currUser);
 
-            ps.execute();
-            conn.close();
-            ps.close();
+                ps.execute();
+                conn.close();
+                ps.close();
 
-            workoutExcerciseField.setText("");
-            workoutTimeField.setText("");
-            workoutCaloriesField.setText("");
-            workoutSetsField.setText("");
-            workoutRepsField.setText("");
-            workoutWeightField.setText("");
-            workoutDateField.setValue(null);
-            workoutErrorLabel.setText("Workout Entry Added");
+                workoutExcerciseField.setText("");
+                workoutTimeField.setText("");
+                workoutCaloriesField.setText("");
+                workoutSetsField.setText("");
+                workoutRepsField.setText("");
+                workoutWeightField.setText("");
+                workoutDateField.setValue(null);
+                workoutErrorLabel.setText("Workout Entry Added");
+            }
         }
         catch(SQLException ex){
             ex.printStackTrace();

@@ -32,17 +32,78 @@
                            </font>
                         </Label>
                         <Button fx:id="logoutButton" layoutX="324.0" layoutY="409.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-                        <VBox layoutX="12.0" layoutY="211.0" prefHeight="72.0" prefWidth="407.0">
+                        <VBox layoutX="405.0" layoutY="187.0" prefHeight="72.0" prefWidth="407.0">
                            <children>
-                              <Label fx:id="weeklyCalsAteLabel" text="Your total calories for this week:">
+                              <Label fx:id="weeklyCalsAteLabel" text="test">
                                  <font>
-                                    <Font size="18.0" />
+                                    <Font size="20.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
                               </Label>
-                              <Label fx:id="weeklyCalsBurnedLabel" text="Your total calories burned for this week:">
+                              <Label fx:id="weeklyCalsBurnedLabel" text="test">
                                  <font>
-                                    <Font size="18.0" />
+                                    <Font size="20.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="yearlyCalsAteLabel" text="test">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="yearlyCalsBurnedLabel" text="test">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="39.0" layoutY="187.0" prefHeight="154.0" prefWidth="348.0">
+                           <children>
+                              <Label text="Your total calories ate for the week:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label text="Your total calories burned for the week:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label text="Total calories ate for the year:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label text="Total calories burned for the year:">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
                               </Label>
                            </children>
                            <padding>
@@ -224,7 +285,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
-                              <Label fx:id="workoutErrorLabel" prefHeight="17.0" prefWidth="150.0">
+                              <Label fx:id="workoutErrorLabel" prefHeight="78.0" prefWidth="150.0">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
