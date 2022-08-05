@@ -21,20 +21,20 @@
             <content>
               <AnchorPane maxHeight="500.0" maxWidth="700.0" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="700.0">
                      <children>
-                        <Label fx:id="greetingText" layoutX="4.0" layoutY="22.0" prefHeight="43.0" prefWidth="697.0" text="Hey ">
+                        <Label fx:id="greetingText" layoutX="7.0" layoutY="26.0" prefHeight="43.0" prefWidth="697.0" text="Hey ">
                            <font>
                               <Font size="35.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lastLoggedInText" layoutX="-4.0" layoutY="80.0" prefHeight="26.0" prefWidth="705.0" text="Last Logged in:">
+                        <Label fx:id="lastLoggedInText" layoutX="-2.0" layoutY="89.0" prefHeight="26.0" prefWidth="705.0" text="Last Logged in:">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
                         <Button fx:id="logoutButton" layoutX="324.0" layoutY="409.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-                        <VBox layoutX="405.0" layoutY="187.0" prefHeight="72.0" prefWidth="407.0">
+                        <VBox layoutX="430.0" layoutY="187.0" prefHeight="154.0" prefWidth="216.0">
                            <children>
-                              <Label fx:id="weeklyCalsAteLabel" text="test">
+                              <Label fx:id="dailyCalsAteLabel" text="test">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -42,7 +42,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label fx:id="weeklyCalsBurnedLabel" text="test">
+                              <Label fx:id="dailyCalsBurnedLabel" text="test">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -71,9 +71,9 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
-                        <VBox layoutX="39.0" layoutY="187.0" prefHeight="154.0" prefWidth="348.0">
+                        <VBox alignment="TOP_RIGHT" layoutX="75.0" layoutY="187.0" prefHeight="154.0" prefWidth="348.0">
                            <children>
-                              <Label text="Your total calories ate for the week:">
+                              <Label text="Your total calories ate for the today:">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -81,7 +81,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <Label text="Your total calories burned for the week:">
+                              <Label text="Your total calories burned for the today:">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -110,6 +110,11 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
+                        <Label layoutX="95.0" layoutY="131.0" text="Track your macros, add your workouts, and view your progress!">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
             </content>

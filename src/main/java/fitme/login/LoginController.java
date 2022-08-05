@@ -3,15 +3,16 @@ package fitme.login;
 import fitme.client.ClientController;
 import fitme.signup.SignupController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -54,6 +55,19 @@ public class LoginController implements Initializable {
                 clientStage.setTitle("FitMe");
                 clientStage.setScene(clientScene);
                 clientStage.setResizable(false);
+                clientStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Logout?", ButtonType.YES, ButtonType.NO);
+                        alert.showAndWait();
+                        if(alert.getResult()==ButtonType.YES){
+                            clientStage.close();
+                        }
+                        else{
+                            event.consume();
+                        }
+                    }
+                });
 
                 clientStage.show();
 

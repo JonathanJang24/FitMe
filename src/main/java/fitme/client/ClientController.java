@@ -86,9 +86,9 @@ public class ClientController implements Initializable {
     @FXML
     private DatePicker viewFoodDatepicker;
     @FXML
-    private Label weeklyCalsAteLabel;
+    private Label dailyCalsAteLabel;
     @FXML
-    private Label weeklyCalsBurnedLabel;
+    private Label dailyCalsBurnedLabel;
     @FXML
     private TextField workoutExcerciseField;
     @FXML
@@ -156,7 +156,7 @@ public class ClientController implements Initializable {
                 selectedFoodEntry = newSelection.getEntry_id();
             }
             catch(Exception e){
-
+//                e.printStackTrace();
             }
         });
         workoutTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -199,14 +199,20 @@ public class ClientController implements Initializable {
     private void populateHome(){
         Date dt = new Date();
         int currYr = dt.getYear();
+        String today = String.valueOf(java.time.LocalDate.now());
 
         double yrCalsAte = 0;
         int yrCalsBurned = 0;
+        double dailyCalsAte = 0;
+        int dailyCalsBurned = 0;
 
         String startYear = String.valueOf(currYr+1900)+"-01-01";
         String endYear = String.valueOf(currYr+1900)+"-12-31";
         String calsAteYrSql = "SELECT user_food_entry.food_name, user_food_entry.servings, user_food_entry.date_entered, user_food_entry.user_entered, food_macro.name, food_macro.calories FROM user_food_entry INNER JOIN food_macro ON user_food_entry.food_name=food_macro.name WHERE date_entered BETWEEN ? AND ? AND user_food_entry.user_entered=?";
         String calsBurnedYrSql = "SELECT cals_burned, date_performed, user_entered FROM user_workout_entry WHERE date_performed BETWEEN ? AND ? AND user_entered=?";
+
+        String calsAteDailySql = "SELECT user_food_entry.food_name, user_food_entry.servings, user_food_entry.date_entered, user_food_entry.user_entered, food_macro.name, food_macro.calories FROM user_food_entry INNER JOIN food_macro ON user_food_entry.food_name=food_macro.name WHERE date_entered=? AND user_food_entry.user_entered=?";
+        String calsBurnedDailySql = "SELECT cals_burned, date_performed, user_entered FROM user_workout_entry WHERE date_performed=? AND user_entered=?";
         try{
 
             Connection conn = dbConnection.getConnection();
@@ -231,6 +237,26 @@ public class ClientController implements Initializable {
             while(rs.next()){
                 yrCalsBurned += Integer.valueOf(rs.getString(1));
             }
+
+            ps = conn.prepareStatement(calsAteDailySql);
+            ps.setString(1,today);
+            ps.setString(2,this.currUser);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                double servings = Double.valueOf(rs.getString(2));
+                double calories = Double.valueOf(rs.getString(6));
+
+                dailyCalsAte += servings*calories;
+            }
+
+            ps = conn.prepareStatement(calsBurnedDailySql);
+            ps.setString(1,today);
+            ps.setString(2,this.currUser);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                dailyCalsBurned += Integer.valueOf(rs.getString(1));
+            }
+
             ps.close();
             rs.close();
             conn.close();
@@ -239,8 +265,8 @@ public class ClientController implements Initializable {
             ex.printStackTrace();
         }
 
-        this.weeklyCalsAteLabel.setText("week ate");
-        this.weeklyCalsBurnedLabel.setText("week burn");
+        this.dailyCalsAteLabel.setText(String.valueOf(dailyCalsAte));
+        this.dailyCalsBurnedLabel.setText(String.valueOf(dailyCalsBurned));
         this.yearlyCalsAteLabel.setText(String.valueOf(yrCalsAte));
         this.yearlyCalsBurnedLabel.setText(String.valueOf(yrCalsBurned));
     }
@@ -402,6 +428,7 @@ public class ClientController implements Initializable {
             ex.printStackTrace();
         }
         loadFoodData();
+        populateHome();
     }
 
     @FXML
@@ -506,6 +533,7 @@ public class ClientController implements Initializable {
             ex.printStackTrace();
         }
         loadExcerciseData();
+        populateHome();
     }
 
     @FXML
